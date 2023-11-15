@@ -7,20 +7,23 @@ using System.Media;
 using System.Windows.Forms;
 
 
-namespace Fall2020_CSC403_Project {
-  public partial class FrmBattle : Form {
-    public static FrmBattle instance = null;
-    private EnemyType enemy;
-    private Player player;
-    Random rnd = new Random();
-    string newLine = Environment.NewLine;
-    string foeName = "";
+namespace Fall2020_CSC403_Project
+{
+    public partial class FrmBattle : Form
+    {
+        public static FrmBattle instance = null;
+        private EnemyType enemy;
+        private Player player;
+        Random rnd = new Random();
+        string newLine = Environment.NewLine;
+        string foeName = "";
 
 
-        private FrmBattle() {
-      InitializeComponent();
-      player = Game.player;
-          
+        private FrmBattle()
+        {
+            InitializeComponent();
+            player = Game.player;
+
 
 
 
@@ -35,11 +38,11 @@ namespace Fall2020_CSC403_Project {
             };
 
 
-    }
+        }
 
 
         public void Setup()
-        {   
+        {
             // update for this enemy
             battleTheme.PlayLooping();
             picEnemy.BackgroundImage = enemy.Img;
@@ -60,7 +63,7 @@ namespace Fall2020_CSC403_Project {
 
             // show Level and XP
             lblXpLevel.Text = "Level " + player.XpLevel.ToString();
-            lblPlayerXp.Text = "XP: " + player.Xp.ToString();
+            lblPlayerXp.Text = "XP: " + player.Xp.ToString() + "/100";
         }
 
         public void SetupForBossBattle()
@@ -102,12 +105,12 @@ namespace Fall2020_CSC403_Project {
             float enemyHealthPer = enemy.Health / (float)enemy.MaxHealth;
 
 
-      const int MAX_HEALTHBAR_WIDTH = 226;
-      lblPlayerHealthFull.Width = (int)(MAX_HEALTHBAR_WIDTH * playerHealthPer);
-      lblEnemyHealthFull.Width = (int)(MAX_HEALTHBAR_WIDTH * enemyHealthPer);
-      lblPlayerHealthFull.Text = player.Health.ToString();
-      lblEnemyHealthFull.Text = enemy.Health.ToString();
-    }
+            const int MAX_HEALTHBAR_WIDTH = 226;
+            lblPlayerHealthFull.Width = (int)(MAX_HEALTHBAR_WIDTH * playerHealthPer);
+            lblEnemyHealthFull.Width = (int)(MAX_HEALTHBAR_WIDTH * enemyHealthPer);
+            lblPlayerHealthFull.Text = player.Health.ToString();
+            lblEnemyHealthFull.Text = enemy.Health.ToString();
+        }
 
 
 
@@ -124,7 +127,7 @@ namespace Fall2020_CSC403_Project {
                 log = (foeName + enemy.determineAttack(0));
                 battleLog.AppendText(log);
                 battleLog.AppendText(newLine);
-                PlayerXp(10);
+                PlayerXp(30);
             }
 
             UpdateHealthBars();
@@ -133,8 +136,8 @@ namespace Fall2020_CSC403_Project {
             {
                 instance = null;
                 Close();
-                PlayerXp(20);
-                lblXpMessage.Text = "HE'S DEAD! +20 XP";
+                PlayerXp(30);
+                lblXpMessage.Text = "HE'S DEAD! +30 XP";
                 lblXpMessage.Visible = true;
             }
             if (player.Health <= 0)
@@ -146,23 +149,23 @@ namespace Fall2020_CSC403_Project {
 
 
         private void btnHeal_Click(object sender, EventArgs e)
-    {
-        int heal = 0;
-        if (player.Health <= 0 || enemy.Health <= 0)
         {
-            instance = null;
-            Close();
+            int heal = 0;
+            if (player.Health <= 0 || enemy.Health <= 0)
+            {
+                instance = null;
+                Close();
 
-                    Timer closeTimer = new Timer();
-                    closeTimer.Interval = 3000;
-                    closeTimer.Tick += (s, args) =>
-                    {
-                        closeTimer.Stop();
-                        closeTimer.Dispose();
-                        Close();
-                    };
-                    closeTimer.Start();
-                
+                Timer closeTimer = new Timer();
+                closeTimer.Interval = 3000;
+                closeTimer.Tick += (s, args) =>
+                {
+                    closeTimer.Stop();
+                    closeTimer.Dispose();
+                    Close();
+                };
+                closeTimer.Start();
+
             }
             else if (player.Health <= 0)
             {
@@ -170,7 +173,7 @@ namespace Fall2020_CSC403_Project {
                 Close();
             }
 
-        
+
 
 
             if ((player.Health + 10) > 50)
@@ -192,20 +195,20 @@ namespace Fall2020_CSC403_Project {
 
 
 
-                if (enemy.Health > 0)
-                {
-                    string log = (foeName + enemy.determineAttack(0));
-                    battleLog.AppendText(log);
-                    battleLog.AppendText(newLine);
-                }
-                UpdateHealthBars();
+            if (enemy.Health > 0)
+            {
+                string log = (foeName + enemy.determineAttack(0));
+                battleLog.AppendText(log);
+                battleLog.AppendText(newLine);
+            }
+            UpdateHealthBars();
 
 
-			if (player.Health <= 0)
-			{
+            if (player.Health <= 0)
+            {
                 instance = null;
                 Close();
-			}
+            }
         }
 
 
@@ -219,7 +222,7 @@ namespace Fall2020_CSC403_Project {
             else
             {
 
-                string log =  "You perform some of the sickest acrobatics ever performed by a mortal to distract and awe your foe";
+                string log = "You perform some of the sickest acrobatics ever performed by a mortal to distract and awe your foe";
                 battleLog.AppendText(log);
                 battleLog.AppendText(newLine);
                 log = (foeName + enemy.determineAttack(1));
@@ -228,11 +231,11 @@ namespace Fall2020_CSC403_Project {
                 UpdateHealthBars();
 
             }
-			if (player.Health <= 0)
-			{
+            if (player.Health <= 0)
+            {
                 instance = null;
                 Close();
-			}
+            }
         }
         private void btnFlee_Click(object sender, EventArgs e)
         {
@@ -265,12 +268,14 @@ namespace Fall2020_CSC403_Project {
         {
             player.AlterXp(amount);
             lblXpLevel.Text = "Level " + player.XpLevel.ToString();
-            lblPlayerXp.Text = "XP: " + player.Xp.ToString() + "/50";
+            lblPlayerXp.Text = "XP: " + player.Xp.ToString() + "/100";
             btnAttack.Hide();
 
-            if (amount > 0)
+
+            if (player.Xp >= 100)
             {
-                lblXpMessage.Text = "Enemy Damaged! + " + amount + "XP!";
+                player.XpLevel += 1;
+                lblXpMessage.Text = "Level" + player.XpLevel.ToString() + "! + 20 damage ability!";
                 lblXpMessage.Visible = true; // Show the message
                 Timer tmrXpMessage = new Timer();
                 tmrXpMessage.Interval = 3000;
@@ -281,13 +286,9 @@ namespace Fall2020_CSC403_Project {
                     tmrXpMessage.Dispose();
                 };
                 tmrXpMessage.Start();
-            }
-            if (player.Xp >= 50)
-            {
-                player.XpLevel += 1;
-                player.AlterXp(-player.Xp);
+                player.Xp -= 100; // Reset XP to 20 after leveling up
                 lblXpLevel.Text = "Level " + player.XpLevel.ToString();
-                lblPlayerXp.Text = "XP: " + player.Xp.ToString() + "/20";
+                lblPlayerXp.Text = "XP: " + player.Xp.ToString() + "/100";
             }
             btnAttack.Show();
 
